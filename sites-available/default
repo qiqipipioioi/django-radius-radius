@@ -266,6 +266,11 @@ reject
 if ("%{sql: select endtime from radusergroup where username='%{User-Name}';}" < "%{sql: select now();}") {
 reject
 }
+
+if ("%{sql: select count(*) from radacct where nasipaddress = '%{NAS-IP-Address}'}" >= "{sql: select max_connections from nas_attributes where nasname = '%{NAS-IP-Address}'}") {
+reject
+}
+
 	#
 	#  See policy.d/filter for the definition of the filter_username policy.
 	#
